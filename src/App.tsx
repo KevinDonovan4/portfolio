@@ -1,41 +1,499 @@
-import { FormEvent, useEffect, useState } from 'react'
-import { motion } from 'framer-motion'
-import { ArrowDown, ArrowUpRight, BriefcaseBusiness, Check, Code2, Database, Download, GitFork, GraduationCap, Network, Mail, Menu, Moon, Send, Server, Sun, X } from 'lucide-react'
+import { FormEvent, useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
+import {
+    ArrowDown,
+    ArrowUpRight,
+    BriefcaseBusiness,
+    Check,
+    Code2,
+    Database,
+    Download,
+    GitFork,
+    GraduationCap,
+    Network,
+    Mail,
+    Menu,
+    Moon,
+    Send,
+    Server,
+    Sun,
+    X,
+} from 'lucide-react';
 
-const nav = [['Accueil', 'home'], ['À propos', 'about'], ['Compétences', 'skills'], ['Parcours', 'journey'], ['Projets', 'projects'], ['Contact', 'contact']]
+const nav = [
+    ['Accueil', 'home'],
+    ['À propos', 'about'],
+    ['Compétences', 'skills'],
+    ['Parcours', 'journey'],
+    ['Projets', 'projects'],
+    ['Contact', 'contact'],
+];
 const skills = [
-  ['Frontend', 'ReactJS · Angular · React Native'], ['Backend', 'NodeJS · Java · ASP.NET Core · API REST'],
-  ['Bases de données', 'PostgreSQL · SQL Server'], ['DevOps / Outils', 'Git · GitHub · Docker · AWS'], ['Tests', 'Cypress'], ['Automatisation', 'n8n']
-]
+    ['Frontend', 'ReactJS · Angular · React Native'],
+    ['Backend', 'NodeJS · Java · ASP.NET Core · API REST'],
+    ['Bases de données', 'PostgreSQL · SQL Server'],
+    ['DevOps / Outils', 'Git · GitHub · Docker · AWS'],
+    ['Tests', 'Cypress'],
+    ['Automatisation', 'n8n'],
+];
 const projects = [
-  { number: '01', title: 'Gestion du parc automobile', text: 'Application web et mobile destinée à la gestion d’un parc automobile.', tags: ['React.js', 'React Native', 'Express.js', 'SQL Server', 'AWS'], points: ['Gestion du parc automobile', 'API REST & logique métier', 'Application mobile et déploiement AWS EC2'], icon: <Server /> },
-  { number: '02', title: 'ADRColis', text: 'Application web et mobile de gestion et de suivi des livraisons.', tags: ['React.js', 'React Native', 'NestJS', 'PostgreSQL'], points: ['Gestion des livraisons', 'Suivi des livreurs en temps réel', 'Carte interactive & API REST'], icon: <Code2 /> },
-  { number: '03', title: 'Application RH', text: 'Application Full Stack de gestion des ressources humaines.', tags: ['ASP.NET Core', 'Angular', 'SQL Server'], points: ['Gestion du recrutement', 'Mobilité interne', 'Demandes de personnel'], icon: <BriefcaseBusiness /> },
-  { number: '04', title: 'AGETIPA Academy', text: 'Plateforme web déployée et mise en production dans le cadre des activités informatiques d’AGETIPA.', tags: ['Déploiement', 'Mise en production'], points: ['Mise en production', 'Support technique'], icon: <GraduationCap /> }
-]
+    {
+        number: '01',
+        title: 'Gestion du parc automobile',
+        text: 'Application web et mobile destinée à la gestion d’un parc automobile.',
+        tags: ['React.js', 'React Native', 'Express.js', 'SQL Server', 'AWS'],
+        points: [
+            'Gestion du parc automobile',
+            'API REST & logique métier',
+            'Application mobile et déploiement AWS EC2',
+        ],
+        icon: <Server />,
+    },
+    {
+        number: '02',
+        title: 'ADRColis',
+        text: 'Application web et mobile de gestion et de suivi des livraisons.',
+        tags: ['React.js', 'React Native', 'NestJS', 'PostgreSQL'],
+        points: [
+            'Gestion des livraisons',
+            'Suivi des livreurs en temps réel',
+            'Carte interactive & API REST',
+        ],
+        icon: <Code2 />,
+    },
+    {
+        number: '03',
+        title: 'Application RH',
+        text: 'Application Full Stack de gestion des ressources humaines.',
+        tags: ['ASP.NET Core', 'Angular', 'SQL Server'],
+        points: ['Gestion du recrutement', 'Mobilité interne', 'Demandes de personnel'],
+        icon: <BriefcaseBusiness />,
+    },
+    {
+        number: '04',
+        title: 'AGETIPA Academy',
+        text: 'Plateforme web déployée et mise en production dans le cadre des activités informatiques d’AGETIPA.',
+        tags: ['Déploiement', 'Mise en production'],
+        points: ['Mise en production', 'Support technique'],
+        icon: <GraduationCap />,
+    },
+];
 const experiences = [
-  { place: 'AGETIPA Madagascar', role: 'CDI / Consultant IT & Développeur Full Stack', date: '22/04/2026 – 21/07/2026', body: 'Application web et mobile de gestion du parc automobile. Conception d’API REST, logique métier, déploiement et maintenance sur AWS EC2, automatisation d’e-mails avec n8n. Déploiement, mise en production et support d’AGETIPA Academy.', tech: 'React.js · React Native · Express.js · SQL Server · AWS · n8n' },
-  { place: 'Adrware Consulting', role: 'Stage — Développeur Frontend & Mobile', date: '01/08/2025 – 01/11/2025', body: 'Développement de l’application ADRColis, de ses interfaces, intégration d’API REST et carte interactive de suivi en temps réel des livreurs. Maintenance et évolution des fonctionnalités.', tech: 'React.js · React Native · NestJS · PostgreSQL' },
-  { place: 'STAR Madagascar', role: 'Stage — Développeur Full Stack', date: '07/04/2025 – 07/06/2025', body: 'Développement frontend, backend et base de données d’une application RH : recrutement, mobilité interne et demandes de personnel.', tech: 'ASP.NET Core · Angular · SQL Server' }
-]
-const reveal = { initial: { opacity: 0, y: 22 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true, amount: .15 }, transition: { duration: .55 } }
+    {
+        place: 'AGETIPA Madagascar',
+        role: 'CDI / Consultant IT & Développeur Full Stack',
+        date: '22/04/2026 – 21/07/2026',
+        body: 'Application web et mobile de gestion du parc automobile. Conception d’API REST, logique métier, déploiement et maintenance sur AWS EC2, automatisation d’e-mails avec n8n. Déploiement, mise en production et support d’AGETIPA Academy.',
+        tech: 'React.js · React Native · Express.js · SQL Server · AWS · n8n',
+    },
+    {
+        place: 'Adrware Consulting',
+        role: 'Stage — Développeur Frontend & Mobile',
+        date: '01/08/2025 – 01/11/2025',
+        body: 'Développement de l’application ADRColis, de ses interfaces, intégration d’API REST et carte interactive de suivi en temps réel des livreurs. Maintenance et évolution des fonctionnalités.',
+        tech: 'React.js · React Native · NestJS · PostgreSQL',
+    },
+    {
+        place: 'STAR Madagascar',
+        role: 'Stage — Développeur Full Stack',
+        date: '07/04/2025 – 07/06/2025',
+        body: 'Développement frontend, backend et base de données d’une application RH : recrutement, mobilité interne et demandes de personnel.',
+        tech: 'ASP.NET Core · Angular · SQL Server',
+    },
+];
+const reveal = {
+    initial: { opacity: 0, y: 22 },
+    whileInView: { opacity: 1, y: 0 },
+    viewport: { once: true, amount: 0.15 },
+    transition: { duration: 0.55 },
+};
 
 function App() {
-  const [dark, setDark] = useState(true); const [open, setOpen] = useState(false)
-  useEffect(() => { document.documentElement.dataset.theme = dark ? 'dark' : 'light' }, [dark])
-  const scroll = (id: string) => { document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' }); setOpen(false) }
-  const submit = (e: FormEvent<HTMLFormElement>) => { e.preventDefault(); alert('Merci pour votre message. Je vous répondrai dès que possible.') }
-  return <>
-    <header className="nav"><a className="brand" href="#home" onClick={() => scroll('home')}>K<span>D.</span></a><nav className={open ? 'open' : ''}>{nav.map(([label,id]) => <button key={id} onClick={() => scroll(id)}>{label}</button>)}</nav><div className="nav-actions"><button aria-label="Changer de thème" className="icon-btn" onClick={() => setDark(!dark)}>{dark ? <Sun size={18}/> : <Moon size={18}/>}</button><a className="cv small" href="/CV.pdf" download><Download size={16}/> CV</a><button className="menu icon-btn" aria-label="Menu" onClick={() => setOpen(!open)}>{open ? <X/> : <Menu/>}</button></div></header>
-    <main>
-      <section id="home" className="hero wrap"><motion.div {...reveal} className="hero-copy"><p className="eyebrow">Disponible pour de nouvelles opportunités</p><h1>Kevin Donovan<br/><em>RAKOTONDRAMANANA</em></h1><h2>Développeur <span>Full Stack</span></h2><p className="intro">Développeur Full Stack diplômé en Informatique, passionné par la conception et le développement d’applications web et mobiles. Curieux, autonome et adaptable, je transforme les besoins métiers en solutions techniques modernes et efficaces.</p><p className="stack">ReactJS <i>•</i> NodeJS <i>•</i> React Native <i>•</i> Java <i>•</i> Angular <i>•</i> AWS</p><div className="hero-buttons"><a className="button primary" href="/CV.pdf" download><Download size={18}/> Télécharger mon CV</a><button className="button secondary" onClick={() => scroll('projects')}>Voir mes projets <ArrowDown size={18}/></button></div><div className="socials"><a href="https://www.linkedin.com" target="_blank" rel="noreferrer" aria-label="LinkedIn"><Network/></a><a href="https://github.com" target="_blank" rel="noreferrer" aria-label="GitHub"><GitFork/></a><a href="mailto:hei.donovan.2@gmail.com" aria-label="Email"><Mail/></a></div></motion.div><motion.div {...reveal} transition={{duration:.7, delay:.15}} className="code-card"><div className="card-top"><span/><span/><span/><b>kevin.ts</b></div><pre><code><small>01</small> <b>const</b> developer = {'{'}{`\n`}<small>02</small>   name: <mark>'Kevin Donovan'</mark>,{`\n`}<small>03</small>   role: <mark>'Full Stack'</mark>,{`\n`}<small>04</small>   mindset: <mark>'build with purpose'</mark>{`\n`}<small>05</small> {'}'}</code></pre><div className="orbit one"></div><div className="orbit two"></div></motion.div></section>
-      <section id="about" className="section muted"><motion.div {...reveal} className="wrap split"><div><p className="eyebrow">01 — Profil</p><h2>À propos de <em>moi</em></h2></div><div><p className="lead">Diplômé d’une Licence en Informatique à la Haute École d’Informatique (HEI) en 2025, je suis développeur Full Stack avec une expérience concrète en développement web et mobile.</p><p>J’interviens de la conception au déploiement et à la maintenance d’applications, avec ReactJS, React Native, NodeJS, Java, Angular, ASP.NET Core et les bases de données relationnelles. Je m’intéresse également à l’automatisation des processus avec n8n.</p></div></motion.div></section>
-      <section id="skills" className="section wrap"><motion.div {...reveal}><p className="eyebrow">02 — Expertise</p><h2>Mes <em>compétences</em></h2></motion.div><div className="skills-grid">{skills.map(([title, list], i) => <motion.article {...reveal} transition={{duration:.4, delay:i*.06}} className="skill-card" key={title}><div className="skill-icon">{i === 2 ? <Database/> : i === 1 ? <Server/> : <Code2/>}</div><h3>{title}</h3><p>{list}</p></motion.article>)}</div></section>
-      <section id="journey" className="section muted"><div className="wrap"><motion.div {...reveal}><p className="eyebrow">03 — Expérience</p><h2>Mon <em>parcours</em></h2></motion.div><div className="timeline"><motion.article {...reveal} className="timeline-item education"><span className="dot"><GraduationCap size={17}/></span><p className="date">2025</p><h3>Licence en Informatique</h3><h4>Haute École d’Informatique (HEI)</h4></motion.article><motion.article {...reveal} className="timeline-item education"><span className="dot"><GraduationCap size={17}/></span><p className="date">2020</p><h3>Baccalauréat série D</h3></motion.article>{experiences.map((x,i) => <motion.article {...reveal} transition={{duration:.45, delay:i*.08}} className="timeline-item" key={x.place}><span className="dot"><BriefcaseBusiness size={17}/></span><p className="date">{x.date}</p><h3>{x.place}</h3><h4>{x.role}</h4><p>{x.body}</p><span className="techline">{x.tech}</span></motion.article>)}</div></div></section>
-      <section id="projects" className="section wrap"><motion.div {...reveal} className="project-heading"><div><p className="eyebrow">04 — Réalisations</p><h2>Projets de <em>développement</em></h2></div><p>Des solutions pensées pour répondre à des besoins métiers concrets.</p></motion.div><div className="projects-grid">{projects.map((p,i) => <motion.article {...reveal} transition={{duration:.45, delay:i*.08}} className="project" key={p.title}><div className="project-art"><span>{p.number}</span>{p.icon}</div><div className="project-body"><h3>{p.title}</h3><p>{p.text}</p><div className="tags">{p.tags.map(t=><span key={t}>{t}</span>)}</div><ul>{p.points.map(p=><li key={p}><Check size={15}/>{p}</li>)}</ul></div></motion.article>)}</div></section>
-      <section className="section muted"><div className="wrap"><motion.div {...reveal}><p className="eyebrow">05 — Services</p><h2>Ce que je peux <em>faire</em></h2></motion.div><div className="services">{[['Développement Web','Création d’applications web modernes, performantes et responsives.'],['Développement Mobile','Développement d’applications mobiles avec React Native.'],['Développement Backend','Création d’API REST et de services backend.'],['Automatisation','Automatisation de tâches et de processus avec n8n.']].map(([t,p],i)=><motion.article {...reveal} transition={{delay:i*.08}} key={t}><span>0{i+1}</span><h3>{t}</h3><p>{p}</p><ArrowUpRight/></motion.article>)}</div><motion.div {...reveal} className="languages"><strong>Langues</strong><span>Français — Niveau B2</span><span>Anglais — Niveau 3</span><span>Malagasy — Langue maternelle</span></motion.div></div></section>
-      <section id="contact" className="section wrap"><motion.div {...reveal} className="contact"><div><p className="eyebrow">06 — Contact</p><h2>Travaillons <em>ensemble</em></h2><p className="lead">Vous avez un projet, une opportunité professionnelle ou souhaitez simplement échanger ? N’hésitez pas à me contacter.</p><a href="mailto:hei.donovan.2@gmail.com" className="contact-link"><Mail/>hei.donovan.2@gmail.com</a><a href="tel:+261336057567" className="contact-link">+261 33 60 575 67</a><div className="socials"><a href="https://www.linkedin.com" target="_blank" rel="noreferrer"><Network/></a><a href="https://github.com" target="_blank" rel="noreferrer"><GitFork/></a></div></div><form onSubmit={submit}><label>Nom<input required name="name" placeholder="Votre nom" /></label><label>Email<input required type="email" name="email" placeholder="vous@entreprise.com" /></label><label>Sujet<input required name="subject" placeholder="Le sujet de votre message" /></label><label>Message<textarea required name="message" rows={4} placeholder="Votre message" /></label><button className="button primary" type="submit">Envoyer <Send size={17}/></button></form></motion.div></section>
-    </main><footer><a className="brand" href="#home">K<span>D.</span></a><div><strong>Kevin Donovan RAKOTONDRAMANANA</strong><p>Développeur Full Stack</p></div><p>© 2026 Kevin Donovan RAKOTONDRAMANANA.<br/>Tous droits réservés.</p></footer>
-  </>
+    const [dark, setDark] = useState(true);
+    const [open, setOpen] = useState(false);
+    useEffect(() => {
+        document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+    }, [dark]);
+    const scroll = (id: string) => {
+        document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+        setOpen(false);
+    };
+    const submit = (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        alert('Merci pour votre message. Je vous répondrai dès que possible.');
+    };
+    return (
+        <>
+            <header className="nav">
+                <a className="brand" href="#home" onClick={() => scroll('home')}>
+                    K<span>D.</span>
+                </a>
+                <nav className={open ? 'open' : ''}>
+                    {nav.map(([label, id]) => (
+                        <button key={id} onClick={() => scroll(id)}>
+                            {label}
+                        </button>
+                    ))}
+                </nav>
+                <div className="nav-actions">
+                    <button
+                        aria-label="Changer de thème"
+                        className="icon-btn"
+                        onClick={() => setDark(!dark)}
+                    >
+                        {dark ? <Sun size={18} /> : <Moon size={18} />}
+                    </button>
+                    <a className="cv small" href="/CV D.pdf" download>
+                        <Download size={16} /> CV
+                    </a>
+                    <button
+                        className="menu icon-btn"
+                        aria-label="Menu"
+                        onClick={() => setOpen(!open)}
+                    >
+                        {open ? <X /> : <Menu />}
+                    </button>
+                </div>
+            </header>
+            <main>
+                <section id="home" className="hero wrap">
+                    <motion.div {...reveal} className="hero-copy">
+                        <p className="eyebrow">Disponible pour de nouvelles opportunités</p>
+                        <h1>
+                            Kevin Donovan
+                            <br />
+                            <em>RAKOTONDRAMANANA</em>
+                        </h1>
+                        <h2>
+                            Développeur <span>Full Stack</span>
+                        </h2>
+                        <p className="intro">
+                            Développeur Full Stack diplômé en Informatique, passionné par la
+                            conception et le développement d’applications web et mobiles. Curieux,
+                            autonome et adaptable, je transforme les besoins métiers en solutions
+                            techniques modernes et efficaces.
+                        </p>
+                        <p className="stack">
+                            ReactJS <i>•</i> NodeJS <i>•</i> React Native <i>•</i> Java <i>•</i>{' '}
+                            Angular <i>•</i> AWS
+                        </p>
+                        <div className="hero-buttons">
+                            <a className="button primary" href="/CV.pdf" download>
+                                <Download size={18} /> Télécharger mon CV
+                            </a>
+                            <button className="button secondary" onClick={() => scroll('projects')}>
+                                Voir mes projets <ArrowDown size={18} />
+                            </button>
+                        </div>
+                        <div className="socials">
+                            <a
+                                href="https://www.linkedin.com"
+                                target="_blank"
+                                rel="noreferrer"
+                                aria-label="LinkedIn"
+                            >
+                                <Network />
+                            </a>
+                            <a
+                                href="https://github.com"
+                                target="_blank"
+                                rel="noreferrer"
+                                aria-label="GitHub"
+                            >
+                                <GitFork />
+                            </a>
+                            <a href="mailto:hei.donovan.2@gmail.com" aria-label="Email">
+                                <Mail />
+                            </a>
+                        </div>
+                    </motion.div>
+                    <motion.div
+                        {...reveal}
+                        transition={{ duration: 0.7, delay: 0.15 }}
+                        className="code-card"
+                    >
+                        <div className="card-top">
+                            <span />
+                            <span />
+                            <span />
+                            <b>kevin.ts</b>
+                        </div>
+                        <pre>
+                            <code>
+                                <small>01</small> <b>const</b> developer = {'{'}
+                                {`\n`}
+                                <small>02</small> name: <mark>'Kevin Donovan'</mark>,{`\n`}
+                                <small>03</small> role: <mark>'Full Stack'</mark>,{`\n`}
+                                <small>04</small> mindset: <mark>'build with purpose'</mark>
+                                {`\n`}
+                                <small>05</small> {'}'}
+                            </code>
+                        </pre>
+                        <div className="orbit one"></div>
+                        <div className="orbit two"></div>
+                    </motion.div>
+                </section>
+                <section id="about" className="section muted">
+                    <motion.div {...reveal} className="wrap split">
+                        <div>
+                            <p className="eyebrow">01 — Profil</p>
+                            <h2>
+                                À propos de <em>moi</em>
+                            </h2>
+                        </div>
+                        <div>
+                            <p className="lead">
+                                Diplômé d’une Licence en Informatique à la Haute École
+                                d’Informatique (HEI) en 2025, je suis développeur Full Stack avec
+                                une expérience concrète en développement web et mobile.
+                            </p>
+                            <p>
+                                J’interviens de la conception au déploiement et à la maintenance
+                                d’applications, avec ReactJS, React Native, NodeJS, Java, Angular,
+                                ASP.NET Core et les bases de données relationnelles. Je m’intéresse
+                                également à l’automatisation des processus avec n8n.
+                            </p>
+                        </div>
+                    </motion.div>
+                </section>
+                <section id="skills" className="section wrap">
+                    <motion.div {...reveal}>
+                        <p className="eyebrow">02 — Expertise</p>
+                        <h2>
+                            Mes <em>compétences</em>
+                        </h2>
+                    </motion.div>
+                    <div className="skills-grid">
+                        {skills.map(([title, list], i) => (
+                            <motion.article
+                                {...reveal}
+                                transition={{ duration: 0.4, delay: i * 0.06 }}
+                                className="skill-card"
+                                key={title}
+                            >
+                                <div className="skill-icon">
+                                    {i === 2 ? <Database /> : i === 1 ? <Server /> : <Code2 />}
+                                </div>
+                                <h3>{title}</h3>
+                                <p>{list}</p>
+                            </motion.article>
+                        ))}
+                    </div>
+                </section>
+                <section id="journey" className="section muted">
+                    <div className="wrap">
+                        <motion.div {...reveal}>
+                            <p className="eyebrow">03 — Expérience</p>
+                            <h2>
+                                Mon <em>parcours</em>
+                            </h2>
+                        </motion.div>
+                        <div className="timeline">
+                            <motion.article {...reveal} className="timeline-item education">
+                                <span className="dot">
+                                    <GraduationCap size={17} />
+                                </span>
+                                <p className="date">2025</p>
+                                <h3>Licence en Informatique</h3>
+                                <h4>Haute École d’Informatique (HEI)</h4>
+                            </motion.article>
+                            <motion.article {...reveal} className="timeline-item education">
+                                <span className="dot">
+                                    <GraduationCap size={17} />
+                                </span>
+                                <p className="date">2020</p>
+                                <h3>Baccalauréat série D</h3>
+                            </motion.article>
+                            {experiences.map((x, i) => (
+                                <motion.article
+                                    {...reveal}
+                                    transition={{ duration: 0.45, delay: i * 0.08 }}
+                                    className="timeline-item"
+                                    key={x.place}
+                                >
+                                    <span className="dot">
+                                        <BriefcaseBusiness size={17} />
+                                    </span>
+                                    <p className="date">{x.date}</p>
+                                    <h3>{x.place}</h3>
+                                    <h4>{x.role}</h4>
+                                    <p>{x.body}</p>
+                                    <span className="techline">{x.tech}</span>
+                                </motion.article>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+                <section id="projects" className="section wrap">
+                    <motion.div {...reveal} className="project-heading">
+                        <div>
+                            <p className="eyebrow">04 — Réalisations</p>
+                            <h2>
+                                Projets de <em>développement</em>
+                            </h2>
+                        </div>
+                        <p>Des solutions pensées pour répondre à des besoins métiers concrets.</p>
+                    </motion.div>
+                    <div className="projects-grid">
+                        {projects.map((p, i) => (
+                            <motion.article
+                                {...reveal}
+                                transition={{ duration: 0.45, delay: i * 0.08 }}
+                                className="project"
+                                key={p.title}
+                            >
+                                <div className="project-art">
+                                    <span>{p.number}</span>
+                                    {p.icon}
+                                </div>
+                                <div className="project-body">
+                                    <h3>{p.title}</h3>
+                                    <p>{p.text}</p>
+                                    <div className="tags">
+                                        {p.tags.map((t) => (
+                                            <span key={t}>{t}</span>
+                                        ))}
+                                    </div>
+                                    <ul>
+                                        {p.points.map((p) => (
+                                            <li key={p}>
+                                                <Check size={15} />
+                                                {p}
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            </motion.article>
+                        ))}
+                    </div>
+                </section>
+                <section className="section muted">
+                    <div className="wrap">
+                        <motion.div {...reveal}>
+                            <p className="eyebrow">05 — Services</p>
+                            <h2>
+                                Ce que je peux <em>faire</em>
+                            </h2>
+                        </motion.div>
+                        <div className="services">
+                            {[
+                                [
+                                    'Développement Web',
+                                    'Création d’applications web modernes, performantes et responsives.',
+                                ],
+                                [
+                                    'Développement Mobile',
+                                    'Développement d’applications mobiles avec React Native.',
+                                ],
+                                [
+                                    'Développement Backend',
+                                    'Création d’API REST et de services backend.',
+                                ],
+                                [
+                                    'Automatisation',
+                                    'Automatisation de tâches et de processus avec n8n.',
+                                ],
+                            ].map(([t, p], i) => (
+                                <motion.article
+                                    {...reveal}
+                                    transition={{ delay: i * 0.08 }}
+                                    key={t}
+                                >
+                                    <span>0{i + 1}</span>
+                                    <h3>{t}</h3>
+                                    <p>{p}</p>
+                                    <ArrowUpRight />
+                                </motion.article>
+                            ))}
+                        </div>
+                        <motion.div {...reveal} className="languages">
+                            <strong>Langues</strong>
+                            <span>Français — Niveau B2</span>
+                            <span>Anglais — Niveau 3</span>
+                            <span>Malagasy — Langue maternelle</span>
+                        </motion.div>
+                    </div>
+                </section>
+                <section id="contact" className="section wrap">
+                    <motion.div {...reveal} className="contact">
+                        <div>
+                            <p className="eyebrow">06 — Contact</p>
+                            <h2>
+                                Travaillons <em>ensemble</em>
+                            </h2>
+                            <p className="lead">
+                                Vous avez un projet, une opportunité professionnelle ou souhaitez
+                                simplement échanger ? N’hésitez pas à me contacter.
+                            </p>
+                            <a href="mailto:hei.donovan.2@gmail.com" className="contact-link">
+                                <Mail />
+                                hei.donovan.2@gmail.com
+                            </a>
+                            <a href="tel:+261336057567" className="contact-link">
+                                +261 33 60 575 67
+                            </a>
+                            <div className="socials">
+                                <a href="https://www.linkedin.com" target="_blank" rel="noreferrer">
+                                    <Network />
+                                </a>
+                                <a href="https://github.com" target="_blank" rel="noreferrer">
+                                    <GitFork />
+                                </a>
+                            </div>
+                        </div>
+                        <form onSubmit={submit}>
+                            <label>
+                                Nom
+                                <input required name="name" placeholder="Votre nom" />
+                            </label>
+                            <label>
+                                Email
+                                <input
+                                    required
+                                    type="email"
+                                    name="email"
+                                    placeholder="vous@entreprise.com"
+                                />
+                            </label>
+                            <label>
+                                Sujet
+                                <input
+                                    required
+                                    name="subject"
+                                    placeholder="Le sujet de votre message"
+                                />
+                            </label>
+                            <label>
+                                Message
+                                <textarea
+                                    required
+                                    name="message"
+                                    rows={4}
+                                    placeholder="Votre message"
+                                />
+                            </label>
+                            <button className="button primary" type="submit">
+                                Envoyer <Send size={17} />
+                            </button>
+                        </form>
+                    </motion.div>
+                </section>
+            </main>
+            <footer>
+                <a className="brand" href="#home">
+                    K<span>D.</span>
+                </a>
+                <div>
+                    <strong>Kevin Donovan RAKOTONDRAMANANA</strong>
+                    <p>Développeur Full Stack</p>
+                </div>
+                <p>
+                    © 2026 Kevin Donovan RAKOTONDRAMANANA.
+                    <br />
+                    Tous droits réservés.
+                </p>
+            </footer>
+        </>
+    );
 }
-export default App
+export default App;
