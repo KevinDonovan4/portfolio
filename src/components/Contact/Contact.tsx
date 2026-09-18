@@ -1,22 +1,10 @@
 import { useState, type FormEvent } from 'react';
 import emailjs from '@emailjs/browser';
-import {
-    Box,
-    Button,
-    Container,
-    IconButton,
-    Stack,
-    TextField,
-    Typography,
-} from '@mui/material';
+import { Box, Button, Container, IconButton, Stack, TextField, Typography } from '@mui/material';
 import { motion } from 'framer-motion';
 import { GitFork, Mail, Network, Send } from 'lucide-react';
 import { reveal } from '../../animations/reveal';
-import {
-    eyebrowSx,
-    sectionContainer,
-    sectionTitleSx,
-} from '../../theme/theme';
+import { eyebrowSx, sectionContainer, sectionTitleSx } from '../../theme/theme';
 
 const linkSx = {
     display: 'flex',
@@ -108,9 +96,7 @@ export default function Contact() {
                     }}
                 >
                     <Box>
-                        <Typography sx={eyebrowSx}>
-                            06 — Contact
-                        </Typography>
+                        <Typography sx={eyebrowSx}>06 — Contact</Typography>
 
                         <Typography
                             component="h2"
@@ -130,25 +116,16 @@ export default function Contact() {
                                 color: 'text.secondary',
                             }}
                         >
-                            Vous avez un projet, une opportunité professionnelle
-                            ou souhaitez simplement échanger ? N’hésitez pas à
-                            me contacter.
+                            Vous avez un projet, une opportunité professionnelle ou souhaitez
+                            simplement échanger ? N’hésitez pas à me contacter.
                         </Typography>
 
-                        <Box
-                            component="a"
-                            href="mailto:hei.donovan.2@gmail.com"
-                            sx={linkSx}
-                        >
+                        <Box component="a" href="mailto:hei.donovan.2@gmail.com" sx={linkSx}>
                             <Mail />
                             hei.donovan.2@gmail.com
                         </Box>
 
-                        <Box
-                            component="a"
-                            href="tel:+261336057567"
-                            sx={linkSx}
-                        >
+                        <Box component="a" href="tel:+261336057567" sx={linkSx}>
                             +261 33 60 575 67
                         </Box>
 
