@@ -142,7 +142,6 @@ export default function Hero() {
                         [
                             { Icon: Network, href: 'https://www.linkedin.com', label: 'LinkedIn' },
                             { Icon: GitFork, href: 'https://github.com', label: 'GitHub' },
-                            { Icon: Mail, href: 'mailto:hei.donovan.2@gmail.com', label: 'Email' },
                         ] as { Icon: LucideIcon; href: string; label: string }[]
                     ).map(({ Icon, href, label }) => (
                         <IconButton
