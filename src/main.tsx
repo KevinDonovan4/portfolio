@@ -1,10 +1,11 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import './styles.css';
 import App from './App';
-
+import { PortfolioThemeProvider } from './theme/theme';
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
-        <App />
+        <PortfolioThemeProvider>
+            <App />
+        </PortfolioThemeProvider>
     </StrictMode>
 );
